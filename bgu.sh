@@ -23,9 +23,11 @@ tty_in() { if [ -t 0 ]; then "$@"; else "$@" < /dev/tty; fi; }
 
 [ "$(uname -s)" = "Darwin" ] || die "macOS 専用です"
 
-# 1. Homebrew
-if [ -x /opt/homebrew/bin/brew ]; then eval "$(/opt/homebrew/bin/brew shellenv)"; fi
-if [ -x /usr/local/bin/brew ];  then eval "$(/usr/local/bin/brew shellenv)";  fi
+# 1. Homebrew（PATH に無いときだけ shellenv を評価する）
+if ! command -v brew >/dev/null 2>&1; then
+	if [ -x /opt/homebrew/bin/brew ]; then eval "$(/opt/homebrew/bin/brew shellenv)"; fi
+	if [ -x /usr/local/bin/brew ];  then eval "$(/usr/local/bin/brew shellenv)";  fi
+fi
 if ! command -v brew >/dev/null 2>&1; then
 	log "Homebrew を導入します"
 	NONINTERACTIVE=1 tty_in /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"

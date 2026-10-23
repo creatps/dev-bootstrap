@@ -5,3 +5,5 @@
 | スクリプト | 実行 | 実体 |
 |---|---|---|
 | `bgu.sh` | `bash -c "$(curl -fsSL https://raw.githubusercontent.com/creatps/dev-bootstrap/main/bgu.sh)"` | `creatps/bgu-switch-on` の `scripts/setup-mac.sh` |
+
+既存 clone がある場合は自動で main を取り込む（起動スクリプトが無い古い main のときだけ fast-forward）。未コミットの変更があるときは何も変えずに案内を表示して停止する。
